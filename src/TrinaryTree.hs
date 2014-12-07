@@ -12,10 +12,11 @@ instance Show a => Show (TrinaryTree a) where
   show TEmpty = "TEmpty"
   show (TTree x left center right) =
     "TTree " ++ show x ++ "\n" ++
-      "|- " ++ (shift $ show left) ++
-      "|- " ++ (shift $ show center) ++
-      "|- " ++ (shift $ show right)
-    where shift s = unlines $ fmap ("  " ++) $ lines s
+    "|- " ++ (shift $ show left) ++
+    "|- " ++ (shift $ show center) ++
+    "|- " ++ (shift $ show right)
+    where shift s = unlines $ work $ lines s
+            where work (x:xs) = x : fmap ("   " ++) xs
 
 insert :: Ord a => a -> TrinaryTree a -> TrinaryTree a
 insert x TEmpty = TTree x TEmpty [] TEmpty
