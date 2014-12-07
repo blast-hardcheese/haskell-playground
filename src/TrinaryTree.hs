@@ -2,7 +2,7 @@ module TrinaryTree where
 
 import Control.Applicative
 
-data TrinaryTree a = TEmpty | TTree a (TrinaryTree a) (TrinaryTree a) (TrinaryTree a)
+data TrinaryTree a = TEmpty | TTree a (TrinaryTree a) [a] (TrinaryTree a)
 
 instance Functor TrinaryTree where
   fmap _ TEmpty = TEmpty
@@ -18,10 +18,10 @@ instance Show a => Show (TrinaryTree a) where
     where shift s = unlines $ fmap ("  " ++) $ lines s
 
 insert :: Ord a => a -> TrinaryTree a -> TrinaryTree a
-insert x TEmpty = TTree x TEmpty TEmpty TEmpty
+insert x TEmpty = TTree x TEmpty [] TEmpty
 insert y (TTree x left center right)
   | y <  x = TTree x (work left) center right
-  | y == x = TTree x left (work center) right
+  | y == x = TTree x left (y : center) right
   | y >  x = TTree x left center (work right)
   where work = insert y
 
